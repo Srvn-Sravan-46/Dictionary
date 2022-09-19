@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {StatusBar} from 'react-native';
 import {
   Text,
@@ -10,7 +10,8 @@ import {
   TouchableOpacity,
   SafeAreaView,
 } from 'react-native';
-import Tts from 'react-native-tts';
+// import Tts from 'react-native-tts';
+import Voice from '@react-native-community/voice';
 
 export default function HomeScreen() {
   const [newWord, setNewWord] = useState('');
@@ -18,7 +19,92 @@ export default function HomeScreen() {
   const [definition, setDefinition] = useState('');
   const [example, setExample] = useState('');
   const [items, setItems] = useState([])
+  const[pitch, setPitch] = useState('');
+  const[error, setError] = useState('');
+  const[end, setEnd] = useState('');
+  const[started, setStarted] = useState('');
+  const[results, setResults] = useState('');
+
+
+  useEffect (() => {
+    Voice.onSpeechStart = onSpeechStart;
+    Voice.onSpeechEnd = onSpeechEnd;
+    Voice.onSpeechError = onSpeechError;
+    Voice.onSpeechResults = onSpeechResults;
+    Voice.onSpeechVolumeChanged = onSpeechVolumeChanged;
+
+    return ()=> {
+      Voice.destroy().then(Voice.removeAllListeners);
+    };
+
+  }, []);
+
+  const onSpeechStart = (e) => {
+    console.log('onSpeechStart: ', e);
+    setStarted('v');
+  };
+
+  const onSpeechEnd = (e) => {
+    console.log('onSpeeshEnd: ', e)
+    setEnd('v');
+  };
+
+  const onSpeechError = (e) => {
+    console.log('onSpeeechError: ', e)
+    setError('v');
+  };
   
+  const onSpeechResults = (e) => {
+    console.log('onSpeechResults: ', e)
+    setResults(e.value);
+  };
+
+  const onSpeechVolumeChanged = (e) => {
+    console.log('onSpeechVolumeChanged: ', e)
+    setPitch(e.value);
+  };
+
+  const startRecognizing = async() => {
+    try {
+      await Voice.start('en-US');
+      setPitch('');
+      setError('');
+      setStarted('');
+      setResults('');
+      setEnd('');
+    } catch (e) {
+      console.error(e);
+    }
+    };
+
+    const stopRecognizing = async () => {
+      try{ 
+        await Voice.stop();
+      } catch (e) {
+        console.error(e);
+      }
+    };
+
+    const cancellRecognizing = async () => {
+      try {
+        await Voice.cancel();
+      } catch (e) {
+        console.error(e);
+      }
+    };
+
+    const destroyRecognizing = async () => {
+      try {
+        await Voice.destroy();
+        setPitch('');
+        setError('');
+        setStarted('');
+        setResults('');
+        setEnd('');
+      } catch (e) {
+        console.error(e);
+      }
+    };
 
   const addItem = () => {
     setItems([checkedWord])
@@ -57,23 +143,23 @@ export default function HomeScreen() {
     setNewWord('');
   };
 
-  const HandleSpeak = () => {
-    console.log(items, {checkedWord})
-    Tts.getInitStatus().then(() => {
-    Tts.speak('hello welcome');
-    Tts.setDefaultLanguage('en-IE');
-    Tts.setDefaultVoice('com.apple.ttsbundle.Moira-compact');
-    Tts.setDefaultRate(0.6);
-    Tts.setDefaultRate(0.6, true);
-    Tts.setDefaultPitch(1.5);
+  // const HandleSpeak = () => {
+  //   console.log(items, {checkedWord})
+  //   Tts.getInitStatus().then(() => {
+  //   Tts.speak('hello welcome');
+  //   Tts.setDefaultLanguage('en-IE');
+  //   Tts.setDefaultVoice('com.apple.ttsbundle.Moira-compact');
+  //   Tts.setDefaultRate(0.6);
+  //   Tts.setDefaultRate(0.6, true);
+  //   Tts.setDefaultPitch(1.5);
 
-    }, (err) => {
-        if (err.code === 'no_ engine') {
-          Tts.requestInstallEngine();
-        }
-      }
-    );
-  }
+  //   }, (err) => {
+  //       if (err.code === 'no_ engine') {
+  //         Tts.requestInstallEngine();
+  //       }
+  //     }
+  //   );
+  // }
   
 
   return (
@@ -131,7 +217,7 @@ export default function HomeScreen() {
                 }}>
                 <Text style={styles.buttonText}>Clear</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.playTouch} onPress={()=> HandleSpeak()}> 
+              <TouchableOpacity style={styles.playTouch} onPress={startRecognizing}> 
               <Image
               source={require('../../src/assets/img/listen-icon-23.png')}
               style={styles.logoDesign}
