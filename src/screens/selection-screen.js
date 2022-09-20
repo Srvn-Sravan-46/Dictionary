@@ -11,7 +11,11 @@ export default function SelectionScreen ({route, navigation}) {
 
     return (
         <View>
-            <ImageBackground style={style.header} source={require('../../src/assets/img/blue-header-3.jpg')}></ImageBackground>
+            <ImageBackground style={style.header} source={require('../../src/assets/img/blue-header-3.jpg')}>
+                <View style={{justifyContent: 'center'}}>
+            <Text style={style.headerText}>Choose Option</Text>
+            </View>
+            </ImageBackground>
         <View style={{flexDirection: 'row'}}>
         <View style={{ justifyContent: 'center'}}>
             <TouchableOpacity onPress={Submit}>
@@ -67,6 +71,13 @@ const style = StyleSheet.create ({
         height: 80,
         marginTop: 0,
 
-    }
+    },
+    headerText: {
+        color: 'white',
+        marginTop: 20,
+        marginLeft: 20,
+        fontSize: 30,
+        fontWeight: '700',
+    },
 
 },)
