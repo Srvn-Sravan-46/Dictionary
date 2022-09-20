@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 // import Tts from 'react-native-tts';
 import Voice from '@react-native-community/voice';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function HomeScreen() {
   const [newWord, setNewWord] = useState('');
@@ -24,6 +25,12 @@ export default function HomeScreen() {
   const[end, setEnd] = useState('');
   const[started, setStarted] = useState('');
   const[results, setResults] = useState('');
+
+  const getValue = () => {
+    AsyncStorage.getItem('any_key_here').then((checkedWord) => {
+      setCheckedWord(checkedWord);
+    })
+  }
 
 
   useEffect (() => {
@@ -121,6 +128,15 @@ export default function HomeScreen() {
   
 
   const getInfo = () => {
+
+    if(newWord) {
+      AsyncStorage.setItem('any_key_here', newWord);
+      setNewWord('');
+
+    }else {
+      alert('Enter a Word !')
+    }
+
     var url = 'https://api.dictionaryapi.dev/api/v2/entries/en/' + newWord;
 
     return fetch(url)
@@ -203,12 +219,13 @@ export default function HomeScreen() {
               style={styles.mic}
             />
               </TouchableOpacity>
-              <TouchableOpacity  onpress={cancellRecognizing}>
+              <TouchableOpacity  onpress={getValue}>
               <Image
               source={require('../../src/assets/img/stop.png')}
               style={styles.stop}
             />
               </TouchableOpacity>
+              {/* <Text>{checkedWord}</Text> */}
               </View>
               
 
