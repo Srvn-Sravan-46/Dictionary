@@ -6,7 +6,7 @@ const SplashScreen = ({route, navigation}) => {
   const nav = useNavigation();
 
   function submit() {
-    nav.navigate('HomeScreen');
+    nav.navigate('SelectionScreen');
   }
 
     return(
