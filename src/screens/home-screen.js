@@ -72,6 +72,7 @@ export default function HomeScreen() {
       setStarted('');
       setResults('');
       setEnd('');
+      console.log('started');
     } catch (e) {
       console.error(e);
     }
@@ -80,6 +81,7 @@ export default function HomeScreen() {
     const stopRecognizing = async () => {
       try{ 
         await Voice.stop();
+        console.log('stop');
       } catch (e) {
         console.error(e);
       }
@@ -88,6 +90,7 @@ export default function HomeScreen() {
     const cancellRecognizing = async () => {
       try {
         await Voice.cancel();
+        console.log('cancell');
       } catch (e) {
         console.error(e);
       }
@@ -192,6 +195,21 @@ export default function HomeScreen() {
               onChangeText={searchWord}
               onChange={e=>setCheckedWord(e.target.value)}
               value={newWord ? newWord : ''}></TextInput>
+              <View style={{flexDirection: 'row'}}>
+
+          <TouchableOpacity onPress={startRecognizing}>
+             <Image
+              source={require('../../src/assets/img/mc.png')}
+              style={styles.mic}
+            />
+              </TouchableOpacity>
+              <TouchableOpacity  onpress={cancellRecognizing}>
+              <Image
+              source={require('../../src/assets/img/stop.png')}
+              style={styles.stop}
+            />
+              </TouchableOpacity>
+              </View>
               
 
             <View
@@ -234,6 +252,14 @@ export default function HomeScreen() {
             </View>
           </View>
         </View>
+        {/* <View {results.map((result, index) => {
+          return (
+            <Text key={`result-${index}`}
+              {result}> fsdf </Text>
+          )
+        })}> 
+          
+          </View> */}
       </ImageBackground>
       <StatusBar style="auto" />
     </View>
@@ -295,7 +321,14 @@ const styles = StyleSheet.create({
     width: 40,
   },
   mic: {
-    width: 40,
+    width: 33,
+    height: 33,
+    marginTop: 10
+  },
+  stop: {
+    width:40,
     height: 40,
-  }
+    marginTop: 6,
+    marginLeft: 8,
+  },
 });
