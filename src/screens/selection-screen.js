@@ -9,6 +9,16 @@ export default function SelectionScreen ({route, navigation}) {
         nav.navigate('HomeScreen');
     }
 
+    function Notes () {
+        nav.navigate('Notes');
+    }
+
+    function About () {
+        nav.navigate('About');
+    }
+
+    
+
     return (
         <View>
             <ImageBackground style={style.header} source={require('../../src/assets/img/blue-header-3.jpg')}>
@@ -35,6 +45,24 @@ export default function SelectionScreen ({route, navigation}) {
                 </TouchableOpacity>
             </View>
             <Text style={style.historyText}>History</Text>
+        </View>
+
+        <View style={{flexDirection: 'row'}}>
+            <View>
+                <TouchableOpacity onPress={Notes}>
+                <Image style={style.history}source={require('../../src/assets/img/1475336.png')}></Image>
+                </TouchableOpacity>
+            </View>
+            <Text style={style.historyText}>Notes</Text>
+        </View>
+
+        <View style={{flexDirection: 'row'}}>
+            <View>
+                <TouchableOpacity onPress={About}>
+                <Image style={style.history}source={require('../../src/assets/img/About-Symbol.png')}></Image>
+                </TouchableOpacity>
+            </View>
+            <Text style={style.historyText}>About</Text>
         </View>
 
         </View>

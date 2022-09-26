@@ -193,10 +193,7 @@ export default function HomeScreen() {
             style={styles.imageDesign}
           />
           <View style={{marginTop: 40}}>
-            {/* <Image
-              source={require('../../src/assets/img/font.png')}
-              style={styles.logoDesign}
-            /> */}<Text style={styles.dic}>Dictionary</Text>
+           <Text style={styles.dic}>Dictionary</Text>
           </View>
         </View>
 
