@@ -76,11 +76,11 @@ const style = StyleSheet.create ({
     search: {
         width: 100,
         height: 100,
-        marginTop: 80,
+        marginTop: 50,
         marginLeft: 50,
     },
     searchText: {
-        marginTop: 105,
+        marginTop: 80,
         fontSize: 30,
     },
     history: {
